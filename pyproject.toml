@@ -2,7 +2,7 @@
 name = "insurance-quote-app"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Roshin <theroshin@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
