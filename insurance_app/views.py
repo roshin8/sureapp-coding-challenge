@@ -2,21 +2,23 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from typing import Union, Dict, Any
+from django.http import HttpRequest
 from .models import Quote
 from .serializers import QuoteSerializer
 from .pricing import calculate_price
 import json
 
 @api_view(['GET'])
-def get_quote(request, quote_id):
+def get_quote(request: HttpRequest, quote_id: int) -> Response:
     quote = get_object_or_404(Quote, id=quote_id)
     serializer = QuoteSerializer(quote)
     return Response(serializer.data)
 
 @api_view(['POST'])
-def create_quote(request):
+def create_quote(request: HttpRequest) -> Response:
     try:
-        data = json.loads(request.body.decode('utf-8'))
+        data: Dict[str, Any] = json.loads(request.body.decode('utf-8'))
     except json.JSONDecodeError:
         return Response({'error': 'Invalid JSON data'}, status=status.HTTP_400_BAD_REQUEST)
     
