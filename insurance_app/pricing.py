@@ -34,7 +34,11 @@ def calculate_price(quote: Quote) -> Dict[str, float]:
 
     # Handle multiple coverages like flood or hurricane without modifying code
     state_coverage_rates: Dict[str, Union[str, float]] = state_config["coverage_rate"]
-    for key in quote.coverage:
+
+    # Filter keys with True values in quote.coverage
+    selected_coverages = {key: value for key, value in quote.coverage.items() if value}
+
+    for key in selected_coverages:
         if key.lower() in state_coverage_rates:
             total_premium += base_cost * state_coverage_rates[key.lower()]
 
@@ -44,7 +48,7 @@ def calculate_price(quote: Quote) -> Dict[str, float]:
     total_cost: float = subtotal + taxes 
 
     return {
-        "Monthly Subtotal": round(subtotal, 2),
-        "Monthly Taxes": round(taxes, 2),
-        "Monthly Total": round(total_cost, 2),
+        "Monthly Subtotal": float(str(subtotal)[:4]),
+        "Monthly Taxes": float(str(taxes)[:4]),
+        "Monthly Total": float(str(total_cost)[:5]),
     }
