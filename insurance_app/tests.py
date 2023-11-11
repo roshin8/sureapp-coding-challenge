@@ -2,6 +2,7 @@ import unittest
 from decimal import Decimal
 from django.test import TestCase, TransactionTestCase
 from rest_framework.test import APITestCase
+from rest_framework import status
 from .models import Quote, StateConfig
 from .serializers import QuoteSerializer
 from .pricing import calculate_price
@@ -95,7 +96,7 @@ class QuoteTests(APITestCase):
             'coverage': {'flood': True}
         }
 
-        response = self.client.post('/api/create_quote/', data, format='json')
+        response = self.client.post('/insurance/quote/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertIn('id', response.data)
         quote = Quote.objects.get(id=response.data['id'])
@@ -111,26 +112,26 @@ class QuoteTests(APITestCase):
             'coverage': {'invalid_key': 'value'}
         }
 
-        response = self.client.post('/api/create_quote/', data, format='json')
+        response = self.client.post('/insurance/quote/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_retrieve_quote_valid_id(self):
         quote = Quote.objects.create(coverage_type='Basic', state='California', has_pet=True)
-        response = self.client.get(f'/api/get_quote/{quote.id}/')
+        response = self.client.get(f'/insurance/quote/{quote.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_retrieve_quote_invalid_id(self):
-        response = self.client.get('/api/get_quote/999/')  # Assuming 999 is an invalid ID
+        response = self.client.get('/insurance/quote/999/')  # Assuming 999 is an invalid ID
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_invalid_data_format(self):
         invalid_data = 'invalid_data'
-        response = self.client.post('/api/create_quote/', invalid_data, format='json')
+        response = self.client.post('/insurance/quote/', invalid_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_quote_with_missing_fields(self):
         incomplete_data = {'coverage_type': 'Basic'}
-        response = self.client.post('/api/create_quote/', incomplete_data, format='json')
+        response = self.client.post('/insurance/quote/', incomplete_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
