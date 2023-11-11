@@ -15,6 +15,7 @@ def get_quote(request: HttpRequest, quote_id: int) -> Response:
     serializer = QuoteSerializer(quote)
     return Response(serializer.data)
 
+
 @api_view(['POST'])
 def create_quote(request: HttpRequest) -> Response:
     try:

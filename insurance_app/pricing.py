@@ -6,6 +6,24 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def get_state_config(state: str) -> Dict[str, Union[str, float]]:
+    """
+    Retrieve the configuration for a specific state.
+
+    Parameters:
+    - state (str): The name of the state for which configuration is needed.
+
+    Returns:
+    Dict[str, Union[str, Decimal]]: A dictionary containing the state configuration with keys:
+    - 'state': The name of the state.
+    - 'coverage_rate': A dictionary representing coverage rates for different types.
+    - 'monthly_tax_rate': The monthly tax rate for the state.
+
+    If the state is not found, an empty dictionary is returned.
+
+    Raises:
+    ObjectDoesNotExist: If the state configuration is not found in the database.
+    """
+
     try:
         state_config = StateConfig.objects.get(state=state)
         return {
@@ -18,6 +36,22 @@ def get_state_config(state: str) -> Dict[str, Union[str, float]]:
 
 
 def calculate_price(quote: Quote) -> Dict[str, float]:
+    """
+    Calculate the pricing details for a given insurance quote.
+
+    Parameters:
+    - quote (Quote): The Quote instance for which pricing is calculated.
+
+    Returns:
+    Dict[str, float]: A dictionary containing pricing details with keys:
+    - 'Monthly Subtotal': Monthly subtotal cost.
+    - 'Monthly Taxes': Monthly taxes.
+    - 'Monthly Total': Total monthly cost.
+
+    Raises:
+    ValueError: If the state configuration for the given quote is invalid.
+    """
+
     state_config = get_state_config(quote.state)
 
     if not state_config:
