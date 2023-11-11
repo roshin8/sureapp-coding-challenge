@@ -3,19 +3,6 @@ This is a Django application providing an API for managing insurance quotes.
 https://sure.notion.site/2022-Backend-Take-Home-Prompt-5fd6c44daa55421081b144778e07ff68
 ...
 
-## Table of Contents
-
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Database Setup](#database-setup)
-- [Running the App](#running-the-app)
-- [Admin Panel](#admin-panel)
-- [API Endpoints](#api-endpoints)
-- [Unit Tests](#unit-tests)
-- [Contributing](#contributing)
-- [License](#license)
-
-
 ## Getting Started
 
 ### Prerequisites
