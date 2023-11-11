@@ -1,5 +1,6 @@
 # Insurance Quote App
 This is a Django application providing an API for managing insurance quotes.
+
 https://sure.notion.site/2022-Backend-Take-Home-Prompt-5fd6c44daa55421081b144778e07ff68
 ...
 
@@ -86,7 +87,7 @@ This Returns the following
 }
 ```
 
-### Testing
+## Testing
 
 **Run Unit Tests:**
 
